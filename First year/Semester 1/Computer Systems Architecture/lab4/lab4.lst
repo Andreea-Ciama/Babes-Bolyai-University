@@ -1,0 +1,41 @@
+     1                                  ; 19. Given a word A, form the double word B:
+     2                                  ; bits 28-31 of B are 1;
+     3                                  ; bits 24-25 and 26-27 of B are the bits 8-9 of A
+     4                                  ; bits 20-23 of B are the bits 0-3 of A inversed;
+     5                                  ; bits 16-19 of B are 0;
+     6                                  ; bits 0-15 of B are identical with the bits 16-31 of B.
+     7                                  
+     8                                  bits 32
+     9                                  global start
+    10                                  
+    11                                  extern exit
+    12                                  import exit msvcrt.dll
+    13                                  
+    14                                  segment data use32 class=data
+    15 00000000 126A                        A dw 0110101000010010b
+    16 00000002 <res 00000004>              B resd 1 ; 1111 1010 1101 0000b = FAD0h
+    17                                  
+    18                                  segment code use32 class=code
+    19                                      start:
+    20 00000000 66A1[00000000]                  mov AX, [A] ; AX = 0110101000010010b
+    21 00000006 BB000000F0                      mov EBX, 11110000000000000000000000000000b ; makes bits 28-31 equal to 1
+    22 0000000B 66250003                        and AX, 0000001100000000b ; separates bits 8-9
+    23 0000000F 98                              cwde ; converts the word from AX to dword in EAX
+    24 00000010 C1E010                          shl EAX, 16 ; moves bits 8-9 to 24-25
+    25 00000013 09C3                            or EBX, EAX ; puts the bits EBX
+    26 00000015 C1E002                          shl EAX, 2 ; moves bits 8-9 from 24-25 to 26-27
+    27 00000018 09C3                            or EBX, EAX ; puts the bits in EBX
+    28 0000001A 66A1[00000000]                  mov AX, [A] ; AX = 0110101000010010b
+    29 00000020 6683E00F                        and AX, 0000000000001111b ; separates bits 0-3
+    30 00000024 6683F00F                        xor AX, 0000000000001111b ; reverse bits 0-3
+    31 00000028 98                              cwde ; converts the word from AX to double word in EAX
+    32 00000029 C1E014                          shl EAX, 20 ; moves bits 0-3 to 20-23
+    33 0000002C 09C3                            or EBX, EAX ; puts the bits EBX
+    34 0000002E C1EB10                          shr EBX, 16 ; moves bits 16-31 to 0-15
+    35 00000031 6689D8                          mov AX, BX ; makes a copy in BX
+    36 00000034 C1E310                          shl EBX, 16 ; returns the bits back to 16-31
+    37 00000037 6689C3                          mov BX, AX ; makes bits 0-15 identical to bits 16-31 by placing the copy
+    38 0000003A 891D[02000000]                  mov [B], EBX ; forms B
+    39 00000040 6A00                            push dword 0
+    40 00000042 FF15[00000000]                  call [exit]
+    41                                          

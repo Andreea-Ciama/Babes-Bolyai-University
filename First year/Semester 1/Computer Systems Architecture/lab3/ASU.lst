@@ -1,0 +1,39 @@
+     1                                  ; a - byte, b - word, c - double word, d - qword - unsigned
+     2                                  ; 19.(d+d)-(a+a)-(b+b)-(c+c)
+     3                                  bits 32
+     4                                  
+     5                                  global start
+     6                                  extern exit
+     7                                  import exit msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 12                          a db 12h
+    11 00000001 3412                        b dw 1234h
+    12 00000003 78563412                    c dd 12345678h
+    13 00000007 CDAB785634120000            d dq 12345678ABCDh
+    14                                  
+    15                                  segment code use32 class=code
+    16                                      start:
+    17                                          ; edx:eax = d
+    18 00000000 A1[07000000]                    mov eax, dword[d]
+    19 00000005 8B15[0B000000]                  mov edx, dword[d+4]
+    20                                          ; edx:eax = d+d
+    21 0000000B 0305[07000000]                  add eax, dword [d]
+    22 00000011 1315[0B000000]                  adc edx, dword [d+4]; edx:eax = 2468ACF1579Ah
+    23                                          ; bl = a
+    24 00000017 8A1D[00000000]                  mov bl, byte[a]
+    25 0000001D 021D[00000000]                  add bl, byte[a]     ; bl = a+a = 24h
+    26                                          ; edx:eax = (d+d)-(a+a)
+    27 00000023 28D8                            sub al, bl          ; edx:eax = 2468ACF15776h
+    28                                          ; bx = b
+    29 00000025 668B1D[01000000]                mov bx, word[b]
+    30 0000002C 66031D[01000000]                add bx, word[b]     ; bx = b+b = 2468h
+    31                                          ; edx:eax = (d+d)-(a+a)-(b+b)
+    32 00000033 6629D8                          sub ax, bx          ; edx:eax = 2468ACF1330Eh
+    33                                          ; ebx = c
+    34 00000036 8B1D[03000000]                  mov ebx, dword[c]
+    35 0000003C 031D[03000000]                  add ebx, dword[c]   ; ebx = c+c = 2468ACF0h
+    36                                          ; edx:eax = (d+d)-(a+a)-(b+b)-(c+c)
+    37 00000042 29D8                            sub eax, ebx        ; edx:eax = 24688888861Eh
+    38 00000044 6A00                            push dword 0
+    39 00000046 FF15[00000000]                  call [exit]

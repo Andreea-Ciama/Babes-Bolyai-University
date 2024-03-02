@@ -1,0 +1,43 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  
+     5                                  extern exit
+     6                                  import exit msvcrt.dll
+     7                                  extern scanf
+     8                                  import scanf msvcrt.dll
+     9                                  extern printf
+    10                                  import printf msvcrt.dll
+    11                                  
+    12                                  segment data use32 class=data
+    13 00000000 <res 00000004>              a resd 1
+    14 00000004 <res 00000004>              b resd 1
+    15 00000008 256420257800                format_read db '%d %x', 0
+    16 0000000E 256400                      format_print db '%d', 0
+    17                                      ;Read a decimal number and a hexadecimal number from the keyboard.
+    18                                  ;    Display the number of 1's of the sum of the two numbers in decimal format
+    19                                  segment code use32 class=code
+    20                                      start:
+    21 00000000 68[04000000]                    PUSH dword b
+    22 00000005 68[00000000]                    PUSH dword a
+    23 0000000A 68[08000000]                    PUSH dword format_read
+    24 0000000F FF15[00000000]                  CALL [scanf]
+    25 00000015 83C40C                          ADD ESP, 4*3
+    26                                          
+    27 00000018 A1[00000000]                    MOV EAX, [a]
+    28 0000001D 0305[04000000]                  ADD EAX, [b]
+    29 00000023 B900000000                      MOV ECX, 0
+    30                                          for_bits:
+    31 00000028 D1E8                                SHR EAX, 1
+    32 0000002A 7301                                JNC skip
+    33 0000002C 41                                  INC ECX
+    34                                              skip:
+    35 0000002D 83F800                              CMP EAX, 0
+    36 00000030 75F6                            JNE for_bits
+    37 00000032 51                              PUSH ECX
+    38 00000033 68[0E000000]                    PUSH dword format_print
+    39 00000038 FF15[00000000]                  call [printf]
+    40 0000003E 83C408                          ADD ESP, 4*2
+    41                                          
+    42 00000041 6A00                            PUSH dword 0
+    43 00000043 FF15[00000000]                  CALL [exit]

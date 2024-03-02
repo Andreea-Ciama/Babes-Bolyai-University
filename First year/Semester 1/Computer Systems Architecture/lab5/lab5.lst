@@ -1,0 +1,39 @@
+     1                                  ; 19. Given 2 lists of bytes A and B, make the list of bytes R that only contains the even and the negative elements from the two lists.  
+     2                                   
+     3                                  bits 32  
+     4                                   
+     5                                  global start         
+     6                                  
+     7                                  extern exit 
+     8                                  import exit msvcrt.dll
+     9                                  
+    10                                  segment data use32 class=data 
+    11 00000000 020103FDFC02FA              A db 2h, 1h, 3h, -3h, -4h, 2h, -6h 
+    12 00000007 0405FB07FAFE01              B db 4h, 5h, -5h, 7h, -6h, -2h, 1h 
+    13                                      len equ $-A 
+    14 0000000E 00<rept>                    d times len db 0 ; allocate the space for the destination array that can have a maximum length of len A + len B
+    15                                  
+    16                                  segment code use32 class=code 
+    17                                      start: 
+    18 00000000 B90E000000                      mov ECX, len
+    19 00000005 BE00000000                      mov ESI, 0 
+    20 0000000A BB00000000                      mov EBX, 0 ; the position at which we insert the value in the destination array
+    21 0000000F E318                            jecxz Finish 
+    22                                          Repeating: 
+    23 00000011 8A86[00000000]                      mov AL, [A + ESI] 
+    24 00000017 0400                                add AL, 0 ; sets the flags
+    25                                               
+    26 00000019 790B                                jns EndLoop ; jump if not negative
+    27                                               
+    28 0000001B D0E8                                shr AL, 1 ; jump if odd 
+    29 0000001D 7207                                jc EndLoop
+    30                                              
+    31 0000001F 8883[0E000000]                      mov [d+EBX], AL 
+    32 00000025 43                                  inc EBX 
+    33                                                   
+    34                                              EndLoop:     
+    35 00000026 46                                      inc ESI 
+    36 00000027 E2E8                            loop Repeating 
+    37                                          Finish:
+    38 00000029 6A00                            push    dword 0       
+    39 0000002B FF15[00000000]                  call    [exit] 

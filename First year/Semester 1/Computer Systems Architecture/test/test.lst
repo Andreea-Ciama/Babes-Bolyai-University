@@ -1,0 +1,118 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  
+     5                                  extern exit, fopen, fread, fclose, fprintf
+     6                                  import exit msvcrt.dll
+     7                                  import fopen msvcrt.dll
+     8                                  import fread msvcrt.dll
+     9                                  import fclose msvcrt.dll
+    10                                  import fprintf msvcrt.dll
+    11                                  
+    12                                  segment data use32 class=data
+    13 00000000 776F7264732E747874-         file_name db 'words.txt', 0
+    13 00000009 00                 
+    14 0000000A 7200                        access_mode db 'r', 0
+    15 0000000C FFFFFFFF                    file_descriptor dd -1
+    16 00000010 776F726473636F756E-         file_name2 db 'wordscount.txt', 0
+    16 00000019 742E74787400       
+    17 0000001F 7700                        access_mode2 db 'w', 0
+    18 00000021 FFFFFFFF                    file_descriptor2 dd -1
+    19                                      buffer_size equ 100
+    20 00000025 01                          word_flag db 1
+    21                                      space equ ' '
+    22                                      point equ '.'
+    23 00000026 <res 00000064>              buffer resb buffer_size
+    24 0000008A 00000000                    counter dd 0
+    25 0000008E 256400                      format db '%d', 0
+    26                                      
+    27                                     
+    28                                      
+    29                                  segment code use32 class=code
+    30                                      start:
+    31                                      
+    32                                          ;printf(print_format)
+    33                                          ;push dword print_format
+    34                                          ;call [printf]
+    35                                          ;add ESP, 4*1
+    36                                          
+    37                                          ;gets(file_name)
+    38                                          ;push dword file_name
+    39                                          ;call [gets]
+    40                                          ;add ESP, 4*1
+    41                                          
+    42                                          
+    43 00000000 68[0A000000]                    PUSH dword access_mode
+    44 00000005 68[00000000]                    PUSH dword file_name
+    45 0000000A FF15[00000000]                  CALL [fopen]
+    46 00000010 83C408                          ADD ESP, 4*2
+    47 00000013 83F800                          CMP EAX, 0
+    48 00000016 0F84C3000000                    JE finish
+    49 0000001C A3[0C000000]                    MOV [file_descriptor], EAX
+    50                                          
+    51 00000021 68[1F000000]                    PUSH dword access_mode2
+    52 00000026 68[10000000]                    PUSH dword file_name2
+    53 0000002B FF15[00000000]                  CALL [fopen]
+    54 00000031 83C408                          ADD ESP, 4*2
+    55 00000034 83F800                          CMP EAX, 0
+    56 00000037 0F84A2000000                    JE finish
+    57 0000003D A3[21000000]                    MOV [file_descriptor2], EAX
+    58                                          
+    59                                          file_loop:
+    60 00000042 FF35[0C000000]                      PUSH dword [file_descriptor]
+    61 00000048 6A64                                PUSH dword buffer_size
+    62 0000004A 6A01                                PUSH dword 1
+    63 0000004C 68[26000000]                        PUSH dword buffer
+    64 00000051 FF15[00000000]                      CALL [fread]
+    65 00000057 83C410                              ADD ESP, 4*4
+    66 0000005A 83F800                              CMP EAX, 0
+    67 0000005D 7448                                JE after
+    68                                              
+    69 0000005F 89C1                                MOV ECX, EAX
+    70 00000061 FC                                  CLD
+    71 00000062 BE[26000000]                        MOV ESI, buffer
+    72                                              
+    73 00000067 68[26000000]                        push dword buffer
+    74 0000006C FF35[21000000]                      push dword [file_descriptor2]
+    75 00000072 FF15[00000000]                      call [fprintf]
+    76 00000078 83C408                              add ESP, 4*2
+    77                                              
+    78                                              buffer_loop:
+    79 0000007B AC                                      LODSB
+    80 0000007C 3C20                                    CMP AL, space
+    81 0000007E 741C                                    JE punctuation
+    82 00000080 3C2E                                    CMP AL, point
+    83 00000082 7418                                    JE punctuation
+    84                                                  
+    85 00000084 803D[25000000]01                        CMP byte [word_flag], 1
+    86 0000008B 7516                                    JNE skip
+    87 0000008D FF05[8A000000]                          INC dword [counter]
+    88 00000093 C605[25000000]00                        MOV byte [word_flag], 0
+    89 0000009A EB07                                    JMP skip
+    90                                                  
+    91                                                  punctuation:
+    92 0000009C C605[25000000]01                        MOV byte [word_flag], 1
+    93                                                  
+    94                                                  skip:
+    95 000000A3 E2D6                                LOOP buffer_loop
+    96 000000A5 EB9B                            JMP file_loop
+    97                                          after:
+    98                                          
+    99 000000A7 FF35[8A000000]                  PUSH dword [counter]
+   100 000000AD 68[8E000000]                    push dword format
+   101 000000B2 FF35[21000000]                  push dword [file_descriptor2]
+   102 000000B8 FF15[00000000]                  call [fprintf] 
+   103 000000BE 83C40C                          add esp, 4*3
+   104                                          
+   105 000000C1 FF35[0C000000]                  PUSH dword [file_descriptor]
+   106 000000C7 FF15[00000000]                  CALL [fclose]
+   107 000000CD 83C404                          ADD ESP, 4
+   108                                          
+   109                                          
+   110 000000D0 FF35[21000000]                  PUSH dword [file_descriptor2]
+   111 000000D6 FF15[00000000]                  CALL [fclose]
+   112 000000DC 83C404                          ADD ESP, 4
+   113                                          
+   114                                          finish:
+   115 000000DF 6A00                            PUSH dword 0
+   116 000000E1 FF15[00000000]                  CALL [exit]

@@ -1,0 +1,66 @@
+     1                                  bits 32 
+     2                                  global start        
+     3                                  
+     4                                  extern exit, printf 
+     5                                  import exit msvcrt.dll                           
+     6                                  import printf msvcrt.dll
+     7                                            
+     8                                  extern compare_b       
+     9                                                            
+    10                                  segment data use32 class=data
+    11 00000000 313031303031313162-         a db '10100111b', '01100011b', '110b', '101011b'
+    11 00000009 303131303030313162-
+    11 00000012 313130623130313031-
+    11 0000001B 3162               
+    12                                      len_a equ $ - a
+    13 0000001D 256300                      format db '%c', 0
+    14 00000020 2C2000                      added_string db ', ', 0
+    15 00000023 257300                      added_string_format db '%s', 0
+    16 00000026 <res 00000004>              ecx_copy resd 1
+    17 0000002A <res 00000004>              eax_copy resd 1
+    18                                  
+    19                                  ;A string containing n binary representations on 8 bits is given as a character string.
+    20                                  ;Obtain the string containing the numbers corresponding to the given binary representations.
+    21                                  ;Example:
+    22                                  ;Given: '10100111b', '01100011b', '110b', '101011b'
+    23                                  ;Obtain: 10100111b, 01100011b, 110b, 101011b
+    24                                      
+    25                                  segment code use32 public class=code
+    26                                      start:
+    27 00000000 B91D000000                      mov ecx, len_a   ;ecx = length of the array (in bytes)
+    28 00000005 E35B                            jecxz final
+    29 00000007 BE[00000000]                    mov esi, a  ;esi = address of the array
+    30                                          read_loop:
+    31 0000000C 890D[26000000]                      mov [ecx_copy], ecx  ;save ecx in memory
+    32 00000012 B800000000                          mov eax, 0
+    33 00000017 AC                                  lodsb  ;al='1'       ;eax = 0000 00xy where xy=ascii code of the character 0, 1 or b
+    34 00000018 A3[2A000000]                        mov [eax_copy], eax  ;save eax in memory
+    35                                              
+    36 0000001D 50                                  push eax
+    37 0000001E 68[1D000000]                        push format
+    38 00000023 FF15[00000000]                      call [printf]    ;print the character '0', '1', 'b'
+    39 00000029 83C408                              add esp, 4 * 2
+    40                                              
+    41 0000002C A1[2A000000]                        mov eax, [eax_copy]  ;restore the value of eax
+    42 00000031 50                                  push eax
+    43 00000032 E8(00000000)                        call compare_b  ; call compare_b    a function that compares characters with 'b' 1 ont he stack if equal, else 0 on the stack (dword)
+    44                                                
+    45 00000037 83F800                              cmp eax, 0    ;eax=1 if the character was b, else 0 
+    46 0000003A 7502                                jne print_string   ;if eax=1, print ', '
+    47 0000003C EB1C                                jmp sfarsit  ;if eax=0, go to the end of the loop 
+    48                                              
+    49                                              print_string:
+    50 0000003E 833D[26000000]01                    cmp dword[ecx_copy], 1
+    51 00000045 7413                                je sfarsit   ;if ecx_copy=1 (it was the last element), go to the end of the loop
+    52 00000047 68[20000000]                        push added_string    ;else, print ', '
+    53 0000004C 68[23000000]                        push added_string_format
+    54 00000051 FF15[00000000]                      call [printf]
+    55 00000057 83C408                              add esp, 4 * 2
+    56                                              
+    57                                              sfarsit:
+    58 0000005A 8B0D[26000000]                      mov ecx, [ecx_copy] ;restore the value of ecx
+    59 00000060 E2AA                                loop read_loop      ;compare ecx with 0 and loop again if ecx!=0
+    60                                          
+    61                                          final: 
+    62 00000062 6A00                            push    dword 0      
+    63 00000064 FF15[00000000]                  call    [exit]   

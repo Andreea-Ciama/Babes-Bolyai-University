@@ -1,0 +1,44 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit
+     6                                  import exit msvcrt.dll
+     7                                  
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 7856AB12CDAB561244-         sir DD 12AB5678h, 1256ABCDh, 12344344h
+    10 00000009 433412             
+    11                                      len EQU ($-sir)/4
+    12                                  
+    13                                  segment code use32 class=code
+    14                                      start:
+    15 00000000 B903000000                      MOV ECX, len
+    16 00000005 BE[00000000]                    MOV ESI, sir
+    17 0000000A FC                              CLD
+    18 0000000B E328                            JECXZ finish
+    19                                          loop_1:
+    20 0000000D 51                                  PUSH dword ECX
+    21 0000000E 49                                  DEC ECX
+    22 0000000F E31F                                JECXZ end_loop
+    23 00000011 66AD                                LODSW
+    24 00000013 66AD                                LODSW
+    25 00000015 89F2                                MOV EDX, ESI
+    26 00000017 6689C3                              MOV BX, AX
+    27                                              loop_2:
+    28 0000001A 66AD                                    LODSW
+    29 0000001C 66AD                                    LODSW
+    30 0000001E 6639C3                                  CMP BX, AX
+    31 00000021 760B                                    JNA skip
+    32 00000023 66895EFE                                MOV [ESI - 2], BX
+    33 00000027 668942FE                                MOV [EDX - 2], AX
+    34 0000002B 6689C3                                  MOV BX, AX
+    35                                                  skip:
+    36 0000002E E2EA                                LOOP loop_2
+    37                                              end_loop:
+    38 00000030 89D6                                MOV ESI, EDX
+    39 00000032 59                                  POP ECX
+    40 00000033 E2D8                            LOOP loop_1
+    41                                          finish:
+    42 00000035 6A00                            PUSH dword 0
+    43 00000037 FF15[00000000]                  CALL [exit]

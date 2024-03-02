@@ -1,0 +1,83 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  
+     5                                  extern exit, fopen, fread, fclose, printf
+     6                                  import exit msvcrt.dll
+     7                                  import fopen msvcrt.dll
+     8                                  import fread msvcrt.dll
+     9                                  import fclose msvcrt.dll
+    10                                  import printf msvcrt.dll
+    11                                  
+    12                                  segment data use32 class=data
+    13 00000000 776F7264732E747874-         file_name db 'words.txt', 0
+    13 00000009 00                 
+    14 0000000A 7200                        access_mode db 'r', 0
+    15 0000000C FFFFFFFF                    file_descriptor dd -1
+    16                                      buffer_size equ 100
+    17 00000010 01                          word_flag db 1
+    18                                      space equ ' '
+    19                                      point equ '.'
+    20 00000011 <res 00000064>              buffer resb buffer_size
+    21 00000075 00000000                    counter dd 0
+    22 00000079 256400                      format db '%d', 0
+    23                                      
+    24                                      ;A text file is given. The text contains letters, spaces and points. 
+    25                                     ;Read the content of the file, determine the number of words and display the result on the screen
+    26                                      
+    27                                  segment code use32 class=code
+    28                                      start:
+    29 00000000 68[0A000000]                    PUSH dword access_mode
+    30 00000005 68[00000000]                    PUSH dword file_name
+    31 0000000A FF15[00000000]                  CALL [fopen]
+    32 00000010 83C408                          ADD ESP, 4*2
+    33 00000013 83F800                          CMP EAX, 0
+    34 00000016 7479                            JE finish
+    35 00000018 A3[0C000000]                    MOV [file_descriptor], EAX
+    36                                          
+    37                                          file_loop:
+    38 0000001D FF35[0C000000]                      PUSH dword [file_descriptor]
+    39 00000023 6A64                                PUSH dword buffer_size
+    40 00000025 6A01                                PUSH dword 1
+    41 00000027 68[11000000]                        PUSH dword buffer
+    42 0000002C FF15[00000000]                      CALL [fread]
+    43 00000032 83C410                              ADD ESP, 4*4
+    44 00000035 83F800                              CMP EAX, 0
+    45 00000038 7434                                JE after
+    46                                              
+    47 0000003A 89C1                                MOV ECX, EAX
+    48 0000003C FC                                  CLD
+    49 0000003D BE[11000000]                        MOV ESI, buffer
+    50                                              buffer_loop:
+    51 00000042 AC                                      LODSB
+    52 00000043 3C20                                    CMP AL, space
+    53 00000045 741C                                    JE punctuation
+    54 00000047 3C2E                                    CMP AL, point
+    55 00000049 7418                                    JE punctuation
+    56                                                  
+    57 0000004B 803D[10000000]01                        CMP byte [word_flag], 1
+    58 00000052 7516                                    JNE skip
+    59 00000054 FF05[75000000]                          INC dword [counter]
+    60 0000005A C605[10000000]00                        MOV byte [word_flag], 0
+    61 00000061 EB07                                    JMP skip
+    62                                                  
+    63                                                  punctuation:
+    64 00000063 C605[10000000]01                        MOV byte [word_flag], 1
+    65                                                  
+    66                                                  skip:
+    67 0000006A E2D6                                LOOP buffer_loop
+    68 0000006C EBAF                            JMP file_loop
+    69                                          after:
+    70                                          
+    71 0000006E FF35[75000000]                  PUSH dword [counter]
+    72 00000074 68[79000000]                    PUSH dword format
+    73 00000079 FF15[00000000]                  CALL [printf]
+    74 0000007F 83C408                          ADD ESP, 4*2
+    75                                          
+    76 00000082 FF35[0C000000]                  PUSH dword [file_descriptor]
+    77 00000088 FF15[00000000]                  CALL [fclose]
+    78 0000008E 83C404                          ADD ESP, 4
+    79                                          
+    80                                          finish:
+    81 00000091 6A00                            PUSH dword 0
+    82 00000093 FF15[00000000]                  CALL [exit]
