@@ -1,0 +1,6 @@
+Duration for SEQUENTIAL KARATSUBA - degree 10 and 20: 0.0069479 seconds
+Duration for SEQUENTIAL CLASSIC - degree 100 and 200: 0.0096689 seconds
+Duration for SEQUENTIAL KARATSUBA - degree 100 and 200: 0.0209993 seconds
+Duration for SEQUENTIAL KARATSUBA - degree 10000 and 20000: 1.8443551 seconds
+Duration for SEQUENTIAL CLASSIC - degree 10000 and 20000: 2.1846553 seconds
+Duration for PARALLEL CLASSIC - degree 10000 and 20000: 1.1561827 seconds
