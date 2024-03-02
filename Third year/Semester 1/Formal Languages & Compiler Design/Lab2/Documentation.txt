@@ -1,0 +1,113 @@
+https://github.com/911-Andreea-Ciama/FLCD.git       
+
+ Hash Table data structure
+
+Properties: table (array) and size (int).
+
+  __init__(self, size):
+
+        Constructor for the HashTable.
+
+        Description: The constructor for the HashTable takes an integer "size" as an input parameter,
+        which represents the size of the hash table. The table is initialized with the given size, and
+        each position is initialized with an empty list.
+
+        Input:
+        - size (int): The size of the hash table.
+
+        Output:
+        - None
+
+
+  getSize(self):
+
+        Get the size of the hash table.
+
+        Description: This method returns the size of the hash table.
+
+        Input:
+        - None
+
+        Output:
+        - int: The size of the hash table.
+
+
+__hash(self, key):
+        """
+        Calculate the hash value for a key.
+
+        Description: This private method calculates the hash value for a given key. It returns a tuple
+        containing the hash value and the index where the key should be stored in the hash table.
+
+        Input:
+        - key (any): The key to be hashed.
+
+        Output:
+        - tuple: A tuple containing the hash value and the index.
+
+
+add(self, key):
+
+        Add a key to the hash table.
+
+        Description: This method adds a key to the hash table.
+
+        Input:
+        - key (any): The key to be added.
+
+        Output:
+        - None
+
+remove(self, key):
+
+        Remove a key from the hash table.
+
+        Description: This method removes a key from the hash table if it exists.
+
+        Input:
+        - key (any): The key to be removed.
+
+        Output:
+        - None
+
+
+contains(self, key):
+
+        Check if a key is in the hash table.
+
+        Description: This method checks if a key is present in the hash table and returns a boolean
+        value indicating the result.
+
+        Input:
+        - key (any): The key to be checked.
+
+        Output:
+        - bool: True if the key is found, False otherwise.
+
+
+getIndex(self, value):
+
+        Get the index of a specified value in the hash table.
+
+        Description: This method returns the index of a specified value within the hash table, or -1 if
+        the value is not found.
+
+        Input:
+        - value (any): The value to be searched for within the hash table.
+
+        Output:
+        - int: The index of the specified value or -1 if not found.
+
+
+__str__(self):
+
+        Generate a string representation of the hash table.
+
+        Description: This method generates a string representation of the hash table, displaying the
+        (hash value, index) pairs and their associated keys.
+
+        Input:
+        - None
+
+        Output:
+        - str: A string representation of the hash table.

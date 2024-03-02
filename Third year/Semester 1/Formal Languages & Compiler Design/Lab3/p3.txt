@@ -1,0 +1,11 @@
+prog {
+count (int), number (int),n (int), index (int);
+read(count);
+sum (int) = 0;
+index (int) = 1;
+while index <= n {
+	read(number);
+	sum = sum + number;
+}
+print(sum);
+}

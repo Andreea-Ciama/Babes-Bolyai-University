@@ -1,0 +1,11 @@
+prog {
+a (int), b (int);
+read(a);
+read(b);
+while b>0 {
+    a = b;
+    b = a % b;
+}
+gcd(int) = a;
+print(gcd);
+}
