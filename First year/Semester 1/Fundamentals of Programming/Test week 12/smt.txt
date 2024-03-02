@@ -1,0 +1,57 @@
+class Driver:
+    def __init__(self, name, x, y):
+        self._name = name
+        self._x = x
+        self._y = y
+
+    @property
+    def Name(self):
+        return self._name
+
+    @Name.setter
+    def Name(self, val):
+        self._name = val
+
+    def __str__(self):
+       return self._name + ',' + str(self._x) + ',' + str(self._y) + '\n'
+
+
+class DriverFileRepo(Repository):
+    def __init__(self, fileName):
+        super().__init__()
+        self.__file = open(fileName, 'r')
+        for line in self.__file.readlines():
+            if line == '':
+                break
+            a = line
+            a = a.strip()
+            a = a.split(',')
+
+            self.store(Driver(a[0], int(a[1]), int(a[2])))
+        self.__file.close()
+
+
+
+
+    def _saveFile(self):
+        f = open("drivers.txt", 'w')
+        for i in self._objects:
+            f.write(str(i))
+        f.close()
+
+    def store(self, obj):
+        Repository.store(self, obj)
+        self._saveFile()
+
+
+def __str__(self):
+        r = ''
+        for i in self._repo.getAll:
+            r += str(i)
+        return r
+
+class UI:
+    def __init__(self, serviceAddress, serviceDriver):
+        self._address = serviceAddress
+        self._driver = serviceDriver
+
