@@ -1,0 +1,147 @@
+"C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\jbr\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\lib\idea_rt.jar=54537:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\bin" -Dfile.encoding=UTF-8 -classpath "D:\school\Informatica\Anul 3\Semestrul 1\Principiile Implementarii Orientate spre Performanta\lab\piop-sample-gradle-project\Lab3\target\classes;C:\Users\xpoiz\.m2\repository\org\openjdk\jmh\jmh-core\1.37\jmh-core-1.37.jar;C:\Users\xpoiz\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar;C:\Users\xpoiz\.m2\repository\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar;C:\Users\xpoiz\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\xpoiz\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar" org.example.Main
+# JMH version: 1.37
+# VM version: JDK 17.0.8.1, OpenJDK 64-Bit Server VM, 17.0.8.1+7-b1000.32
+# VM invoker: C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\jbr\bin\java.exe
+# VM options: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\lib\idea_rt.jar=54537:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\bin -Dfile.encoding=UTF-8
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 10 iterations, 10 s each, 10000 calls per op
+# Measurement: 10 iterations, 10 s each, 100000 calls per op
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.MyBenchmark.testAdd
+
+# Run progress: 0.00% complete, ETA 00:10:00
+# Fork: 1 of 1
+# Warmup Iteration   1: 6872.338 ms/op
+# Warmup Iteration   2: 6464.526 ms/op
+# Warmup Iteration   3: 6501.468 ms/op
+# Warmup Iteration   4: 6556.080 ms/op
+# Warmup Iteration   5: 6480.913 ms/op
+# Warmup Iteration   6: 6580.489 ms/op
+# Warmup Iteration   7: 6537.824 ms/op
+# Warmup Iteration   8: 6506.598 ms/op
+# Warmup Iteration   9: 6556.542 ms/op
+# Warmup Iteration  10: 6492.318 ms/op
+Iteration   1: 64926.734 ms/op
+Iteration   2: 64385.077 ms/op
+Iteration   3: 64220.958 ms/op
+Iteration   4: 64611.498 ms/op
+Iteration   5: 64588.218 ms/op
+Iteration   6: 66177.667 ms/op
+Iteration   7: 64520.868 ms/op
+Iteration   8: 64628.370 ms/op
+Iteration   9: 64878.239 ms/op
+Iteration  10: 70918.223 ms/op
+
+
+Result "org.example.MyBenchmark.testAdd":
+  65385.585 ±(99.9%) 3049.596 ms/op [Average]
+  (min, avg, max) = (64220.958, 65385.585, 70918.223), stdev = 2017.119
+  CI (99.9%): [62335.990, 68435.181] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.8.1, OpenJDK 64-Bit Server VM, 17.0.8.1+7-b1000.32
+# VM invoker: C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\jbr\bin\java.exe
+# VM options: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\lib\idea_rt.jar=54537:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\bin -Dfile.encoding=UTF-8
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 10 iterations, 10 s each, 10000 calls per op
+# Measurement: 10 iterations, 10 s each, 100000 calls per op
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.MyBenchmark.testAverage
+
+# Run progress: 33.33% complete, ETA 00:06:42
+# Fork: 1 of 1
+# Warmup Iteration   1: 6808.890 ms/op
+# Warmup Iteration   2: 6941.790 ms/op
+# Warmup Iteration   3: 6893.517 ms/op
+# Warmup Iteration   4: 6854.882 ms/op
+# Warmup Iteration   5: 7114.087 ms/op
+# Warmup Iteration   6: 6888.343 ms/op
+# Warmup Iteration   7: 6855.696 ms/op
+# Warmup Iteration   8: 6968.617 ms/op
+# Warmup Iteration   9: 6958.600 ms/op
+# Warmup Iteration  10: 6915.708 ms/op
+Iteration   1: 68694.485 ms/op
+Iteration   2: 69927.537 ms/op
+Iteration   3: 63431.097 ms/op
+Iteration   4: 63981.917 ms/op
+Iteration   5: 63387.260 ms/op
+Iteration   6: 64350.470 ms/op
+Iteration   7: 63725.532 ms/op
+Iteration   8: 63191.840 ms/op
+Iteration   9: 64285.975 ms/op
+Iteration  10: 63908.251 ms/op
+
+
+Result "org.example.MyBenchmark.testAverage":
+  64888.436 ±(99.9%) 3596.173 ms/op [Average]
+  (min, avg, max) = (63191.840, 64888.436, 69927.537), stdev = 2378.646
+  CI (99.9%): [61292.263, 68484.610] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 17.0.8.1, OpenJDK 64-Bit Server VM, 17.0.8.1+7-b1000.32
+# VM invoker: C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\jbr\bin\java.exe
+# VM options: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\lib\idea_rt.jar=54537:C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\bin -Dfile.encoding=UTF-8
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 10 iterations, 10 s each, 10000 calls per op
+# Measurement: 10 iterations, 10 s each, 100000 calls per op
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: org.example.MyBenchmark.testTop
+
+# Run progress: 66.67% complete, ETA 00:03:21
+# Fork: 1 of 1
+# Warmup Iteration   1: 171028.618 ms/op
+# Warmup Iteration   2: 168180.101 ms/op
+# Warmup Iteration   3: 168521.335 ms/op
+# Warmup Iteration   4: 168016.657 ms/op
+# Warmup Iteration   5: 167562.998 ms/op
+# Warmup Iteration   6: 167444.682 ms/op
+# Warmup Iteration   7: 168231.040 ms/op
+# Warmup Iteration   8: 166965.679 ms/op
+# Warmup Iteration   9: 167169.820 ms/op
+# Warmup Iteration  10: 167120.142 ms/op
+Iteration   1: 1667347.222 ms/op
+Iteration   2: 1681321.227 ms/op
+Iteration   3: 1675856.378 ms/op
+Iteration   4: 1662680.768 ms/op
+Iteration   5: 1665683.459 ms/op
+Iteration   6: 1666986.165 ms/op
+Iteration   7: 1669452.657 ms/op
+Iteration   8: 1681634.286 ms/op
+Iteration   9: 1664529.964 ms/op
+Iteration  10: 1663172.500 ms/op
+
+
+Result "org.example.MyBenchmark.testTop":
+  1669866.463 ±(99.9%) 10841.485 ms/op [Average]
+  (min, avg, max) = (1662680.768, 1669866.463, 1681634.286), stdev = 7170.971
+  CI (99.9%): [1659024.978, 1680707.947] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:10:03
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                Mode  Cnt        Score       Error  Units
+MyBenchmark.testAdd      avgt   10    65385.585 ±  3049.596  ms/op
+MyBenchmark.testAverage  avgt   10    64888.436 ±  3596.173  ms/op
+MyBenchmark.testTop      avgt   10  1669866.463 ± 10841.485  ms/op
+
+Process finished with exit code 0
