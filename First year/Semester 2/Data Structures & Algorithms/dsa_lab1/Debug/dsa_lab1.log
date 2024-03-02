@@ -1,0 +1,6 @@
+﻿  ExtendedTest.cpp
+C:\Users\Irina\source\Repos\cs-ubbcluj-ro\dsa_lab1\ExtendedTest.cpp(163,20): warning C4101: 'e': unreferenced local variable
+C:\Users\Irina\source\Repos\cs-ubbcluj-ro\dsa_lab1\ExtendedTest.cpp(170,20): warning C4101: 'ex': unreferenced local variable
+C:\Users\Irina\source\Repos\cs-ubbcluj-ro\dsa_lab1\ExtendedTest.cpp(224,20): warning C4101: 'ex': unreferenced local variable
+C:\Users\Irina\source\Repos\cs-ubbcluj-ro\dsa_lab1\ExtendedTest.cpp(231,20): warning C4101: 'ex': unreferenced local variable
+  dsa_lab1.vcxproj -> C:\Users\Irina\source\Repos\cs-ubbcluj-ro\dsa_lab1\Debug\dsa_lab1.exe
