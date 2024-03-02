@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Tests" tests="9" skipped="0" failures="0" errors="0" timestamp="2023-11-15T19:32:09" hostname="LAPTOP-72Q19S0C" time="0.031">
+  <properties/>
+  <testcase name="testDivideByZero()" classname="Tests" time="0.017"/>
+  <testcase name="testAdd()" classname="Tests" time="0.002"/>
+  <testcase name="testMax()" classname="Tests" time="0.001"/>
+  <testcase name="testMin()" classname="Tests" time="0.001"/>
+  <testcase name="testSubtract()" classname="Tests" time="0.001"/>
+  <testcase name="testSqrt()" classname="Tests" time="0.0"/>
+  <testcase name="testSqrtOfNegativeNumber()" classname="Tests" time="0.0"/>
+  <testcase name="testDivide()" classname="Tests" time="0.001"/>
+  <testcase name="testMultiply()" classname="Tests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
